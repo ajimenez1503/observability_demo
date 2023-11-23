@@ -1,0 +1,46 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:55679
+
+processors:
+  batch:
+
+exporters:
+  debug:
+    verbosity: detailed
+    sampling_initial: 5000
+    sampling_thereafter: 10000
+  # otlphttp/metric:
+  #   endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp
+  #   headers: {"Authorization": "Basic NjA0NTExOmdsY19leUp2SWpvaU9ESXhOamMySWl3aWJpSTZJbk4wTFhSeWFXRnNMWEJ2YkdsamVTMXpkQzFrWlcxdkxXRnVkRzl1YVc5cWFXMWxibVY2SWl3aWF5STZJbVl5Tld0dE1sUlNRalZ5VXpCc05qazVkRTE1UnpOQk1DSXNJbTBpT25zaWNpSTZJblZ6SW4xOQ=="}
+  otlphttp/metric:
+    endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp
+    headers: 
+      authorization: ${env:GRAFANA_AUTHORIZATION}
+  otlp/jaeger:
+    endpoint: localhost:4317
+    tls:
+      insecure: true
+extensions:
+  health_check:
+
+service:
+  telemetry:
+    logs:
+      level: info
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, otlp/jaeger]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, otlphttp/metric]
+    # logs:
+    #   receivers: [otlp]
+    #   processors: [batch]
+    #   exporters: [debug, otlphttp]
