@@ -12,9 +12,6 @@ exporters:
     verbosity: detailed
     sampling_initial: 5000
     sampling_thereafter: 10000
-  # otlphttp/metric:
-  #   endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp
-  #   headers: {"Authorization": "Basic NjA0NTExOmdsY19leUp2SWpvaU9ESXhOamMySWl3aWJpSTZJbk4wTFhSeWFXRnNMWEJ2YkdsamVTMXpkQzFrWlcxdkxXRnVkRzl1YVc5cWFXMWxibVY2SWl3aWF5STZJbVl5Tld0dE1sUlNRalZ5VXpCc05qazVkRTE1UnpOQk1DSXNJbTBpT25zaWNpSTZJblZ6SW4xOQ=="}
   otlphttp/metric:
     endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp
     headers: 
@@ -23,6 +20,10 @@ exporters:
     endpoint: localhost:4317
     tls:
       insecure: true
+  otlphttp/dynatrace:
+    endpoint: https://nnr98912.live.dynatrace.com/api/v2/otlp
+    headers:
+      Authorization: ${env:DYNATRACE_TOKEN}
 extensions:
   health_check:
 
@@ -40,7 +41,7 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [debug, otlphttp/metric]
-    # logs:
-    #   receivers: [otlp]
-    #   processors: [batch]
-    #   exporters: [debug, otlphttp]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, otlphttp/dynatrace]
