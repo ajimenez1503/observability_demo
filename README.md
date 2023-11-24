@@ -43,7 +43,7 @@ export GRAFANA_AUTHORIZATION="Basic $(echo -n $GRAFANA_INSTANCE_ID:$GRAFANA_TOKE
 - Build
 ```
 cd user
-./gradlew assemble
+./gradlew clean assemble
 ```
 
 - Run user service
