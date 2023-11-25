@@ -195,7 +195,16 @@ curl --location 'http://localhost:8083/v1/carts' --header 'Content-Type: applica
 
 ![Screenshot 2023-11-25 at 13.00.41.png](img%2Frunning-demo%2FScreenshot%202023-11-25%20at%2013.00.41.png)
 
+#### Metrics
+
+![Screenshot 2023-11-25 at 15.09.00.png](img%2Frunning-demo%2FScreenshot%202023-11-25%20at%2015.09.00.png)
+
 # Debugging
+
+## Correlate logs based in traceId
+
+In dynatrace you can filter based in a traceId
+![Screenshot 2023-11-25 at 15.11.28.png](img%2Fdebug%2Fcorrelate-logs%2FScreenshot%202023-11-25%20at%2015.11.28.png)
 
 ## Performance investigation
 
