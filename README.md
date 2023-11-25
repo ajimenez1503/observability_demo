@@ -200,6 +200,18 @@ curl --location 'http://localhost:8083/v1/carts' --header 'Content-Type: applica
 
 ## Performance investigation
 
+- Discover we are querying `product-service` for each product:
+![Screenshot 2023-11-25 at 13.56.59.png](img%2Fdebug%2Fperformance%2FScreenshot%202023-11-25%20at%2013.56.59.png)
+- Instead, we can query `product-service` and passing all the products `http://localhost:8082/products/search`
+![Screenshot 2023-11-25 at 14.00.12.png](img%2Fdebug%2Fperformance%2FScreenshot%202023-11-25%20at%2014.00.12.png)
+
+- We can now compare the traces and see the different:
+![Screenshot 2023-11-25 at 14.01.53.png](img%2Fdebug%2Fperformance%2FScreenshot%202023-11-25%20at%2014.01.53.png)
+
+As you can see we have move from 338ms to 137ms in that request. Also we have reduce the number of spans from 39 to 33.
+
 ## Failure investigation
 
 ## Service map
+
+![Screenshot 2023-11-25 at 13.58.19.png](img%2Fdebug%2Fservice-map%2FScreenshot%202023-11-25%20at%2013.58.19.png)
