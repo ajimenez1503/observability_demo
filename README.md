@@ -1,11 +1,19 @@
 # observability_demo
-observability demo for AlmeriaJs talk
+Observability demo.
 
 Three services:
 - User
 - Product
 - cart
 
+Each service is been auto instrumented using https://opentelemetry.io/docs/instrumentation/java/automatic/.
+They are sending telemetry data (logs, traces and metrics) to OpenTelmetry collector.
+The collector is sending the telemetry data to different observability backend:
+- Metrics -> Grafana
+- Logs -> Dynatrace
+- Traces -> Jaeger
+
+![Demo obesvability.jpeg](img%2FDemo%20obesvability.jpeg)
 
 # Deployment
 
@@ -191,8 +199,6 @@ curl --location 'http://localhost:8083/v1/carts' --header 'Content-Type: applica
 # Debugging
 
 ## Performance investigation
-
-
 
 ## Failure investigation
 
