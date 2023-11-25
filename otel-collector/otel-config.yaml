@@ -12,7 +12,7 @@ exporters:
     verbosity: detailed
     sampling_initial: 5000
     sampling_thereafter: 10000
-  otlphttp/metric:
+  otlphttp/grafana:
     endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp
     headers: 
       authorization: ${env:GRAFANA_AUTHORIZATION}
@@ -40,7 +40,7 @@ service:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlphttp/metric]
+      exporters: [debug, otlphttp/grafana]
     logs:
       receivers: [otlp]
       processors: [batch]

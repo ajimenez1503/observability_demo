@@ -15,6 +15,16 @@ The collector is sending the telemetry data to different observability backend:
 
 ![Demo obesvability.jpeg](img%2FDemo%20obesvability.jpeg)
 
+## Otel-collector configuration
+
+Using https://www.otelbin.io/ you can see the otel-collector configuration in a visual way:
+
+![Screenshot 2023-11-25 at 15.16.49.png](img%2Fcollector%2FScreenshot%202023-11-25%20at%2015.16.49.png)
+
+![Screenshot 2023-11-25 at 15.17.14.png](img%2Fcollector%2FScreenshot%202023-11-25%20at%2015.17.14.png)
+
+![Screenshot 2023-11-25 at 15.17.37.png](img%2Fcollector%2FScreenshot%202023-11-25%20at%2015.17.37.png)
+
 # Deployment
 
 ## Jaeger
@@ -251,3 +261,5 @@ As you can see we have move from 338ms to 137ms in that request. Also, we have r
 ## Service map
 
 ![Screenshot 2023-11-25 at 13.58.19.png](img%2Fdebug%2Fservice-map%2FScreenshot%202023-11-25%20at%2013.58.19.png)
+
+# 
