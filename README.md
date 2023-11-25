@@ -107,9 +107,11 @@ curl --location 'http://localhost:8081/users/1'
 }
 ```
 
-### Logs
+#### Logs
+![Screenshot 2023-11-25 at 12.54.28.png](img%2Frunning-demo%2FScreenshot%202023-11-25%20at%2012.54.28.png)
 
-### Trace
+#### Trace
+![Screenshot 2023-11-25 at 12.56.08.png](img%2Frunning-demo%2FScreenshot%202023-11-25%20at%2012.56.08.png)
 
 ## Product
 
@@ -142,12 +144,14 @@ curl --location 'http://localhost:8082/products/search' --header 'Content-Type: 
 ]
 ```
 
-### Logs
+#### Logs
+![Screenshot 2023-11-25 at 12.58.12.png](img%2Frunning-demo%2FScreenshot%202023-11-25%20at%2012.58.12.png)
 
-### Trace
+#### Trace
+
+![Screenshot 2023-11-25 at 12.58.36.png](img%2Frunning-demo%2FScreenshot%202023-11-25%20at%2012.58.36.png)
 
 ## Cart
-
 
 ```
 curl --location 'http://localhost:8083/v1/carts' --header 'Content-Type: application/json' \
@@ -176,14 +180,19 @@ curl --location 'http://localhost:8083/v1/carts' --header 'Content-Type: applica
 ```
 
 
-### Logs
+#### Logs
 
-### Trace
+![Screenshot 2023-11-25 at 12.59.49.png](img%2Frunning-demo%2FScreenshot%202023-11-25%20at%2012.59.49.png)
 
+#### Trace
+
+![Screenshot 2023-11-25 at 13.00.41.png](img%2Frunning-demo%2FScreenshot%202023-11-25%20at%2013.00.41.png)
 
 # Debugging
 
 ## Performance investigation
+
+
 
 ## Failure investigation
 
