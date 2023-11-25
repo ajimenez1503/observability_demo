@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cart.domain.Cart;
 import com.example.cart.domain.CartRequest;
-import com.example.cart.domain.Product;
 import com.example.cart.repo.CartRepo;
 import com.example.cart.service.CartService;
 
@@ -40,17 +39,18 @@ public class CartController {
 
     @PostMapping("carts")
     public ResponseEntity<Cart> createCart(@RequestBody CartRequest request) {
-        var user = cartService.getUser(request.getUserId());
+        var user = cartService.getUser(request.getUser());
         if (user.isEmpty()) {
             log.error("Cannot create cart because user does not exits");
             return ResponseEntity.notFound().build();
         }
-        var products = cartService.getProducts(request.getProductIds());
+        var products = cartService.getProducts(request.getProducts().keySet());
         if (products.isEmpty()) {
             log.error("Cannot create cart because products does not exits");
             return ResponseEntity.notFound().build();
         }
-        var newCart = new Cart(user.get().getId(), products.stream().map(Product::getId).toList());
+        var total = cartService.getTotal(products, request.getProducts());
+        var newCart = new Cart(user.get().getId(), products.keySet(), total);
         var cart = cartRepo.save(newCart);
         log.info("created cart {}", cart);
         return ResponseEntity.ok(cart);

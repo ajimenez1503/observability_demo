@@ -1,8 +1,10 @@
 package com.example.cart.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.stereotype.Service;
 
@@ -41,13 +43,13 @@ public class CartService {
         return Optional.empty();
     }
 
-    public List<Product> getProducts(List<Long> productIds) {
-        List<Product> products = new ArrayList<>();
+    public Map<Long, Product> getProducts(Collection<Long> productIds) {
+        Map<Long, Product> products = new HashMap<>();
         try {
             productIds.forEach(id -> {
                 var result = productClient.getProduct(id);
                 if (result.getStatusCode().is2xxSuccessful()) {
-                    products.add(result.getBody());
+                    products.put(id, result.getBody());
                 }
                 else {
                     log.error("Product with id {} was not found.", id);
@@ -58,5 +60,14 @@ public class CartService {
             log.error("Could not find products with ids '{}'.", productIds, e);
         }
         return products;
+    }
+
+    public Double getTotal(Map<Long, Product> products, Map<Long, Long> productIdsToAmount) {
+        AtomicReference<Double> total = new AtomicReference<>(0D);
+        productIdsToAmount.forEach((id, amount) -> {
+            var price = products.get(id).getPrice();
+            total.updateAndGet(currentTotal -> currentTotal + price * amount);
+        });
+        return total.get();
     }
 }
