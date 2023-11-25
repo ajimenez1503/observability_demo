@@ -26,7 +26,6 @@ docker run --rm --name jaeger -e COLLECTOR_OTLP_ENABLED=true -p 16686:16686 -p 4
 http://localhost:16686/
 
 # Dynatrace
-
 See logs https://nnr98912.apps.dynatrace.com
 
 ## Otel-collector
@@ -212,7 +211,33 @@ As you can see we have move from 338ms to 137ms in that request. Also, we have r
 
 ## Failure investigation
 
-
+- We have discovered a failures in the REST API of `cart-service` by looking at the metrics of Grafana:
+![Screenshot 2023-11-25 at 14.35.40.png](img%2Fdebug%2Ffailure%2FScreenshot%202023-11-25%20at%2014.35.40.png)
+  - There are several 500, which are not expected.
+- Go to dynatrace and search error messages
+![Screenshot 2023-11-25 at 14.39.04.png](img%2Fdebug%2Ffailure%2FScreenshot%202023-11-25%20at%2014.39.04.png)
+  - Issue: 
+  ``` 
+  java.lang.NullPointerException: Cannot invoke "com.example.cart.domain.Product.getPrice()" because the return value of "java.util.Map.get(Object)" is null] with root cause
+  ```
+- Get the traceId and go to Jaeger and see the error:
+![Screenshot 2023-11-25 at 14.42.39.png](img%2Fdebug%2Ffailure%2FScreenshot%202023-11-25%20at%2014.42.39.png)
+- Once we have the exception, we can understand the issue in the code: 
+```java
+    public double getTotal(@SpanAttribute Map<Long, Product> products, @SpanAttribute Map<Long, Long> productIdsToAmount)
+    {
+        AtomicReference<Double> total = new AtomicReference<>(0D);
+        productIdsToAmount.forEach((id, amount) -> {
+            var price = products.get(id).getPrice();
+            total.updateAndGet(currentTotal -> Util.round(currentTotal + price * amount));
+        });
+        return total.get();
+    }
+```
+- The problem is that the size of the maps are different, because one product could not be found
+![Screenshot 2023-11-25 at 14.46.33.png](img%2Fdebug%2Ffailure%2FScreenshot%202023-11-25%20at%2014.46.33.png)
+![Screenshot 2023-11-25 at 14.48.11.png](img%2Fdebug%2Ffailure%2FScreenshot%202023-11-25%20at%2014.48.11.png)
+- Solution is to modify the function `getProducts` to only return the products if all of them are found.
 
 ## Service map
 

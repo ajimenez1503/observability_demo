@@ -106,7 +106,7 @@ public class CartService {
 
     @WithSpan
     public double getTotal(@SpanAttribute Map<Long, Product> products,
-                           Map<Long, Long> productIdsToAmount)
+                           @SpanAttribute Map<Long, Long> productIdsToAmount)
     {
         AtomicReference<Double> total = new AtomicReference<>(0D);
         productIdsToAmount.forEach((id, amount) -> {
