@@ -208,9 +208,11 @@ curl --location 'http://localhost:8083/v1/carts' --header 'Content-Type: applica
 - We can now compare the traces and see the different:
 ![Screenshot 2023-11-25 at 14.01.53.png](img%2Fdebug%2Fperformance%2FScreenshot%202023-11-25%20at%2014.01.53.png)
 
-As you can see we have move from 338ms to 137ms in that request. Also we have reduce the number of spans from 39 to 33.
+As you can see we have move from 338ms to 137ms in that request. Also, we have reduced the number of spans from 39 to 33.
 
 ## Failure investigation
+
+
 
 ## Service map
 
