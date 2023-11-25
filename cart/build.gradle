@@ -34,6 +34,7 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation('org.springframework.cloud:spring-cloud-starter-bootstrap')
+    implementation('io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.32.0')
 
 }
 

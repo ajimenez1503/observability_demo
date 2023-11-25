@@ -13,6 +13,8 @@ import com.example.cart.client.UserClient;
 import com.example.cart.domain.Product;
 import com.example.cart.domain.User;
 
+import io.opentelemetry.instrumentation.annotations.SpanAttribute;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,7 +64,8 @@ public class CartService {
         return products;
     }
 
-    public Double getTotal(Map<Long, Product> products, Map<Long, Long> productIdsToAmount) {
+    @WithSpan
+    public Double getTotal(@SpanAttribute Map<Long, Product> products, Map<Long, Long> productIdsToAmount) {
         AtomicReference<Double> total = new AtomicReference<>(0D);
         productIdsToAmount.forEach((id, amount) -> {
             var price = products.get(id).getPrice();
