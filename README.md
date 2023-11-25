@@ -171,7 +171,7 @@ curl --location 'http://localhost:8083/v1/carts' --header 'Content-Type: applica
         "2": 10,
         "3": 88
     },
-    "total": 164.60000000000002
+    "total": 164.6
 }
 ```
 

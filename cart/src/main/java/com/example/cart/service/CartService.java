@@ -105,13 +105,13 @@ public class CartService {
     }
 
     @WithSpan
-    public Double getTotal(@SpanAttribute Map<Long, Product> products,
+    public double getTotal(@SpanAttribute Map<Long, Product> products,
                            Map<Long, Long> productIdsToAmount)
     {
         AtomicReference<Double> total = new AtomicReference<>(0D);
         productIdsToAmount.forEach((id, amount) -> {
             var price = products.get(id).getPrice();
-            total.updateAndGet(currentTotal -> currentTotal + price * amount);
+            total.updateAndGet(currentTotal -> Util.round(currentTotal + price * amount));
         });
         return total.get();
     }
