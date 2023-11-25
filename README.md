@@ -64,7 +64,7 @@ cd cart
 ./gradlew clean assemble
 ```
 
-- Run user service
+- Run cart service
 ```
 export OTEL_SERVICE_NAME=cart-service
 export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf

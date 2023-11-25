@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.cart.domain.Cart;
 import com.example.cart.domain.CartRequest;
 import com.example.cart.repo.CartRepo;
+import com.example.cart.service.CartService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CartController {
     private final CartRepo cartRepo;
+    private final CartService cartService;
 
     @GetMapping("cart/{cartId}")
     public ResponseEntity<Cart> getCart(@PathVariable Long cartId) {
-        log.info("get cart by id {} ", cartId);
         var cart = cartRepo.findById(cartId);
         if (cart.isPresent()) {
+            log.info("get cart by id {} ", cartId);
             return ResponseEntity.ok(cart.get());
         } else {
             log.error("get cart by id {} not found ", cartId);
@@ -35,9 +37,14 @@ public class CartController {
 
     @PostMapping("cart")
     public ResponseEntity<Cart> createCart(@RequestBody CartRequest request) {
-        log.info("create cart for userId {} ", request.getUserId());
-        var newUser = new Cart(request.getUserId());
-        var user = cartRepo.save(newUser);
-        return ResponseEntity.ok(user);
+        var user = cartService.getUser(request.getUserId());
+        if (user.isEmpty()) {
+            log.error("Cannot create cart because user does not exits");
+            return ResponseEntity.notFound().build();
+        }
+        var newCart = new Cart(user.get().getId());
+        var cart = cartRepo.save(newCart);
+        log.info("created cart for userId {} ", request.getUserId());
+        return ResponseEntity.ok(cart);
     }
 }

@@ -25,3 +25,6 @@ replay_pid*
 
 
 otel-collector/otelcol
+*.idea
+*.gradle
+*/build
