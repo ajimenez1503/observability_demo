@@ -1,6 +1,6 @@
 package com.example.cart.domain;
 
-import java.util.Set;
+import java.util.Map;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -23,12 +23,12 @@ public class Cart {
     private Long id;
     private Long userId;
     @ElementCollection
-    private Set<Long> productIds;
+    private Map<Long, Long> productIdsAndAmount;
     private double total;
 
-    public Cart(Long userId, Set<Long> productIds, double total) {
+    public Cart(Long userId, Map<Long, Long> productIdsAndAmount, double total) {
         this.userId = userId;
-        this.productIds = productIds;
+        this.productIdsAndAmount = productIdsAndAmount;
         this.total = total;
     }
 }

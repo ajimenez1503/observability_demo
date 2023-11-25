@@ -7,7 +7,7 @@ Three services:
 - cart
 
 
-# Running
+# Deployment
 
 ## Jaeger
 
@@ -92,3 +92,99 @@ export OTEL_METRICS_EXPORTER=otlp
 export OTEL_LOGS_EXPORTER=otlp
 java -javaagent:..//opentelemetry-javaagent.jar -jar ./build/libs/cart-0.0.1-SNAPSHOT.jar --server.port=8083
 ```
+
+# Runing demo
+
+## User
+
+```
+curl --location 'http://localhost:8081/users/1'
+```
+```
+{
+    "id": 1,
+    "name": "Antonio"
+}
+```
+
+### Logs
+
+### Trace
+
+## Product
+
+```
+curl --location 'http://localhost:8082/products/search' --header 'Content-Type: application/json' --data '[1, 2, 3, ]'
+```
+```
+[
+    {
+        "id": 1,
+        "name": "Water",
+        "price": 0.28,
+        "description": "Bottle of water",
+        "category": "FOOD"
+    },
+    {
+        "id": 2,
+        "name": "Pizza",
+        "price": 10.5,
+        "description": "Piza margarita",
+        "category": "FOOD"
+    },
+    {
+        "id": 3,
+        "name": "Beer",
+        "price": 0.62,
+        "description": "Bottle of beer",
+        "category": "FOOD"
+    }
+]
+```
+
+### Logs
+
+### Trace
+
+## Cart
+
+
+```
+curl --location 'http://localhost:8083/v1/carts' --header 'Content-Type: application/json' \
+--data '{
+    "user": 1,
+    "products": {
+        "1": 18,
+        "2": 10,
+        "3": 88
+    }
+}'
+
+```
+
+```
+{
+    "id": 1,
+    "userId": 1,
+    "productIdsAndAmount": {
+        "1": 18,
+        "2": 10,
+        "3": 88
+    },
+    "total": 164.60000000000002
+}
+```
+
+
+### Logs
+
+### Trace
+
+
+# Debugging
+
+## Performance investigation
+
+## Failure investigation
+
+## Service map

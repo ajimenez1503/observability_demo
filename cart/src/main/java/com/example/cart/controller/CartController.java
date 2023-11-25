@@ -52,7 +52,7 @@ public class CartController {
             return ResponseEntity.notFound().build();
         }
         var total = cartService.getTotal(products, request.getProducts());
-        var newCart = new Cart(user.get().getId(), products.keySet(), total);
+        var newCart = new Cart(user.get().getId(), request.getProducts(), total);
         var cart = cartRepo.save(newCart);
         log.info("created cart {}", cart);
         return ResponseEntity.ok(cart);
