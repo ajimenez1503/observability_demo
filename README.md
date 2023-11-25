@@ -39,7 +39,7 @@ export GRAFANA_AUTHORIZATION="Basic $(echo -n $GRAFANA_INSTANCE_ID:$GRAFANA_TOKE
 ./otelcol --config otel-config.yaml
 ```
 
-## User
+## User service
 - Build
 ```
 cd user
@@ -57,7 +57,25 @@ export OTEL_LOGS_EXPORTER=otlp
 java -javaagent:..//opentelemetry-javaagent.jar -jar ./build/libs/user-0.0.1-SNAPSHOT.jar --server.port=8081
 ```
 
-## Cart
+## Product service
+- Build
+```
+cd product
+./gradlew clean assemble
+```
+
+- Run product service
+```
+export OTEL_SERVICE_NAME=product-service
+export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:55679
+export OTEL_TRACES_EXPORTER=otlp
+export OTEL_METRICS_EXPORTER=otlp
+export OTEL_LOGS_EXPORTER=otlp
+java -javaagent:..//opentelemetry-javaagent.jar -jar ./build/libs/product-0.0.1-SNAPSHOT.jar --server.port=8082
+```
+
+## Cart service
 - Build
 ```
 cd cart
@@ -72,5 +90,5 @@ export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:55679
 export OTEL_TRACES_EXPORTER=otlp
 export OTEL_METRICS_EXPORTER=otlp
 export OTEL_LOGS_EXPORTER=otlp
-java -javaagent:..//opentelemetry-javaagent.jar -jar ./build/libs/cart-0.0.1-SNAPSHOT.jar --server.port=8082
+java -javaagent:..//opentelemetry-javaagent.jar -jar ./build/libs/cart-0.0.1-SNAPSHOT.jar --server.port=8083
 ```

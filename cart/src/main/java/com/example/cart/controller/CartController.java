@@ -23,7 +23,7 @@ public class CartController {
     private final CartRepo cartRepo;
     private final CartService cartService;
 
-    @GetMapping("cart/{cartId}")
+    @GetMapping("carts/{cartId}")
     public ResponseEntity<Cart> getCart(@PathVariable Long cartId) {
         var cart = cartRepo.findById(cartId);
         if (cart.isPresent()) {
@@ -35,7 +35,7 @@ public class CartController {
         }
     }
 
-    @PostMapping("cart")
+    @PostMapping("carts")
     public ResponseEntity<Cart> createCart(@RequestBody CartRequest request) {
         var user = cartService.getUser(request.getUserId());
         if (user.isEmpty()) {

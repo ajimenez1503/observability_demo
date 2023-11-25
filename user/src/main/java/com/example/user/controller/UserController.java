@@ -24,9 +24,9 @@ public class UserController {
 
     @GetMapping("users/{userId}")
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
-        log.info("get User by id {} ", userId);
         var user = userRepo.findById(userId);
         if (user.isPresent()) {
+            log.info("get User by id {} ", userId);
             return ResponseEntity.ok(user.get());
         } else {
             log.error("get User by id {} not found ", userId);
