@@ -19,10 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
-@RestController
-@RequestMapping("/v1/")
+@RestController()
+@RequestMapping("/v2/")
 @RequiredArgsConstructor
-public class CartController {
+public class CartControllerV2 {
     private final CartRepo cartRepo;
     private final CartService cartService;
 
@@ -46,7 +46,7 @@ public class CartController {
             log.error("Cannot create cart because user does not exits");
             return ResponseEntity.notFound().build();
         }
-        var products = cartService.getProducts(request.getProducts().keySet());
+        var products = cartService.getProductsV2(request.getProducts().keySet());
         if (products.isEmpty()) {
             log.error("Cannot create cart because products does not exits");
             return ResponseEntity.notFound().build();

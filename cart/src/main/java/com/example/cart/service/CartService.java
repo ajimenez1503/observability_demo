@@ -1,10 +1,13 @@
 package com.example.cart.service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -64,8 +67,47 @@ public class CartService {
         return products;
     }
 
+    public Map<Long, Product> getProductsV2(Collection<Long> productIds) {
+        try {
+            var result = productClient.getProducts(productIds.stream().toList());
+            if (result.getStatusCode().is2xxSuccessful()) {
+                return result.getBody()
+                             .stream()
+                             .collect(Collectors.toMap(Product::getId, Function.identity()));
+            }
+            else {
+                log.error("ProductIds {} were not found.", productIds);
+            }
+        }
+        catch (Exception e) {
+            log.error("Could not find products with ids '{}'.", productIds, e);
+        }
+        return Collections.emptyMap();
+    }
+
+    public Map<Long, Product> getProductsV3(Collection<Long> productIds) {
+        try {
+            var result = productClient.getProducts(productIds.stream().toList());
+            if (result.getStatusCode().is2xxSuccessful()) {
+                var resultProducts = result.getBody();
+                if (productIds.size() == resultProducts.size()) {
+                    return resultProducts.stream()
+                                         .collect(Collectors.toMap(Product::getId,
+                                                                   Function.identity()));
+                }
+            }
+            log.error("ProductIds {} were not found.", productIds);
+        }
+        catch (Exception e) {
+            log.error("Could not find products with ids '{}'.", productIds, e);
+        }
+        return Collections.emptyMap();
+    }
+
     @WithSpan
-    public Double getTotal(@SpanAttribute Map<Long, Product> products, Map<Long, Long> productIdsToAmount) {
+    public Double getTotal(@SpanAttribute Map<Long, Product> products,
+                           Map<Long, Long> productIdsToAmount)
+    {
         AtomicReference<Double> total = new AtomicReference<>(0D);
         productIdsToAmount.forEach((id, amount) -> {
             var price = products.get(id).getPrice();
