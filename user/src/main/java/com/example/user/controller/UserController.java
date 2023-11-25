@@ -1,7 +1,5 @@
 package com.example.user.controller;
 
-import java.util.Optional;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +27,8 @@ public class UserController {
         if (user.isPresent()) {
             log.info("get User by id {} ", userId);
             return ResponseEntity.ok(user.get());
-        } else {
+        }
+        else {
             log.error("get User by id {} not found ", userId);
             return ResponseEntity.notFound().build();
         }

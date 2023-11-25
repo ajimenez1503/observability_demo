@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cart.domain.Cart;
 import com.example.cart.domain.CartRequest;
+import com.example.cart.domain.Product;
 import com.example.cart.repo.CartRepo;
 import com.example.cart.service.CartService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 
 
 @Slf4j
@@ -29,7 +31,8 @@ public class CartController {
         if (cart.isPresent()) {
             log.info("get cart by id {} ", cartId);
             return ResponseEntity.ok(cart.get());
-        } else {
+        }
+        else {
             log.error("get cart by id {} not found ", cartId);
             return ResponseEntity.notFound().build();
         }
@@ -42,9 +45,14 @@ public class CartController {
             log.error("Cannot create cart because user does not exits");
             return ResponseEntity.notFound().build();
         }
-        var newCart = new Cart(user.get().getId());
+        var products = cartService.getProducts(request.getProductIds());
+        if (products.isEmpty()) {
+            log.error("Cannot create cart because products does not exits");
+            return ResponseEntity.notFound().build();
+        }
+        var newCart = new Cart(user.get().getId(), products.stream().map(Product::getId).toList());
         var cart = cartRepo.save(newCart);
-        log.info("created cart for userId {} ", request.getUserId());
+        log.info("created cart {}", cart);
         return ResponseEntity.ok(cart);
     }
 }
