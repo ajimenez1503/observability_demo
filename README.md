@@ -110,7 +110,7 @@ export OTEL_LOGS_EXPORTER=otlp
 java -javaagent:..//opentelemetry-javaagent.jar -jar ./build/libs/cart-0.0.1-SNAPSHOT.jar --server.port=8083
 ```
 
-# Runing demo
+# Running demo
 
 ## User
 

@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "23ea937d-8cdf-4a9f-8202-5f64b29f7844",
+		"name": "Demo AlmeriaJs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30292128"
+	},
+	"item": [
+		{
+			"name": "Get user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8081/users/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Get product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8082/products/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Get products",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[1, 2, 3]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/products/search"
+			},
+			"response": []
+		},
+		{
+			"name": "Create cart - v1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": 1,\n    \"products\": {\n        \"1\": 18,\n        \"2\": 10,\n        \"3\": 88\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/v1/carts"
+			},
+			"response": []
+		},
+		{
+			"name": "Create cart - v2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": 1,\n    \"products\": {\n        \"1\": 18,\n        \"2\": 10,\n        \"3\": 88\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/v2/carts"
+			},
+			"response": []
+		},
+		{
+			"name": "Create cart v1 - failure",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": 1,\n    \"products\": {\n        \"1\": 18,\n        \"2\": 10,\n        \"3\": 88,\n        \"4\": 11\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/v1/carts"
+			},
+			"response": []
+		},
+		{
+			"name": "Create cart v2 - failure",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": 1,\n    \"products\": {\n        \"1\": 18,\n        \"2\": 10,\n        \"3\": 88,\n        \"4\": 11\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/v2/carts"
+			},
+			"response": []
+		},
+		{
+			"name": "Create cart v3 - fix",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": 1,\n    \"products\": {\n        \"1\": 18,\n        \"2\": 10,\n        \"3\": 88\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/v3/carts"
+			},
+			"response": []
+		}
+	]
+}
